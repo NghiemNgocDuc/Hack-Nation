@@ -1,0 +1,12 @@
+A:
+  RingBuffer: services/infra_vad/compat/RingBuffer.py
+  transcribe_service: services/infra_vad/compat/transcribe_service.py
+  risk_service: services/infra_vad/compat/risk_service.py
+B:
+  app_backend: services/asr
+  contracts: services/asr/compat/contracts
+  asr_worker: services/asr/compat/asr_worker.py
+C:
+  risk_service: services/risk/compat/risk_service.py
+  rules: services/risk/compat/rules.py
+D:

@@ -1,0 +1,4 @@
+- Infra: segments carry sr=16k, accurate t0/t1; silence close logic 0.8s.
+- ASR: final transcript per segment; auto-lang correct on EN/ES/FR samples.
+- Risk: rules & detectors flag OTP/gift card/wire; spoof detector notifies.
+- UX: risk bands SAFE/CAUTION/SCAM; TTS warning once per 10s on SCAM.

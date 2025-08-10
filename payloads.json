@@ -1,0 +1,53 @@
+{
+  "audio": {
+    "type": "audio",
+    "seq": 1,
+    "sr": 16000,
+    "session_id": "uuid",
+    "pcm16_b64": "<b64>"
+  },
+  "segment": {
+    "type": "segment",
+    "sr": 16000,
+    "t0": 12.3,
+    "t1": 13.5,
+    "speaker": "caller",
+    "bytes_b64": "<b64>",
+    "session_id": "uuid"
+  },
+  "transcript": {
+    "type": "transcript",
+    "text": "hello?",
+    "lang": "en",
+    "t0": 12.3,
+    "t1": 13.5,
+    "speaker": "caller",
+    "partial": false,
+    "session_id": "uuid",
+    "seq": 42
+  },
+  "risk": {
+    "type": "risk",
+    "score": 72,
+    "label": "SCAM",
+    "reasons": [
+      {
+        "term": "verification code",
+        "w": 40
+      }
+    ],
+    "spoof_prob": 0.15,
+    "lang": "en",
+    "t0": 12.3,
+    "t1": 13.5,
+    "session_id": "uuid",
+    "seq": 99
+  },
+  "status": {
+    "type": "status",
+    "latency_ms": 840,
+    "message": "GATEWAY_READY",
+    "session_id": "uuid",
+    "ts": 1723260000
+  }
+}

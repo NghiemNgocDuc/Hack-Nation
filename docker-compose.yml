@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+    environment:
+      - SESSION_ID=${SESSION_ID:-dev-local}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    command: uvicorn main:app --host 0.0.0.0 --port ${GATEWAY_PORT:-5050}
+    ports: ["${GATEWAY_PORT:-5050}:5050"]
+
+  infra_vad:
+    build:
+      context: .
+      dockerfile: services/infra_vad/Dockerfile
+    environment:
+      - GATEWAY_WS=ws://gateway:5050/ws
+      - POST_SEGMENT=http://gateway:5050/ingest/segment
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on: [gateway]
+    command: python -u main.py
+
+  asr:
+    build:
+      context: .
+      dockerfile: services/asr/Dockerfile
+    environment:
+      - GATEWAY_WS=ws://gateway:5050/ws
+      - POST_TRANSCRIPT=http://gateway:5050/ingest/transcript
+      - ASR_MODEL=${ASR_MODEL:-tiny}
+      - ASR_COMPUTE=${ASR_COMPUTE:-int8}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on: [gateway]
+    command: python -u main.py
+
+  risk:
+    build:
+      context: .
+      dockerfile: services/risk/Dockerfile
+    environment:
+      - GATEWAY_WS=ws://gateway:5050/ws
+      - POST_RISK=http://gateway:5050/ingest/risk
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on: [gateway]
+    command: python -u main.py
+
+  web:
+    build:
+      context: .
+      dockerfile: services/web/Dockerfile
+    environment:
+      - NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL:-ws://localhost:5050/ws}
+    depends_on: [gateway]
+    ports: ["${WEB_PORT:-3000}:3000"]
+    command: bash -lc "npm ci || npm i && npm run dev -- --host 0.0.0.0 --port 3000"
